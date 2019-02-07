@@ -7,6 +7,23 @@ using UnityEngine.AI;
 [CustomEditor(typeof(AIWaypointNetwork))]
 public class AIWaypointNetworkEditor : Editor
 {
+    public override void OnInspectorGUI()
+    {
+
+        AIWaypointNetwork network = (AIWaypointNetwork)target;
+
+        //Enumerar opeciones en el inpector
+        network.DisplayMode = (PathDisplayMode)EditorGUILayout.EnumPopup("Display mode:", network.DisplayMode);
+
+        //Asignar Waypoint Inicial y Final
+        if (network.DisplayMode == PathDisplayMode.Paths)
+        {
+            network.WInitial = EditorGUILayout.IntSlider("Waypoint Start ", network.WInitial, 0, network._waypoints.Count - 1);
+            network.WEnd     = EditorGUILayout.IntSlider("Waypoint End ", network.WEnd, 0, network._waypoints.Count - 1);
+        }
+
+        DrawDefaultInspector();
+    }
 
     //Render en la vista de escena
     void OnSceneGUI()
